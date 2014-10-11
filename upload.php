@@ -1,12 +1,12 @@
 <?php
-//Loop through each file
-
+// Sanitise name
 $name = $_POST['name'];
 $name = preg_replace("/[^a-zA-Z0-9_\s\-]/", "", $name);
 $name = preg_replace("/[\s-]+/", "_", $name);
 
 $isGood = true;
 
+//Loop through each file
 for ($i=0; $i<count($_FILES['upload']['name']); $i++) {
 //Get the temp file path
     $tmpFilePath = $_FILES['upload']['tmp_name'][$i];
