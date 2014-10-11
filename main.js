@@ -161,6 +161,7 @@
         input.replaceWith(input.val('').clone(true));
 
         $("#photos").show();
+        $(".thumbnails").empty();
         $(".loading, .error, .nofile, .confirmed, .noname").hide();
     }
 
