@@ -12,17 +12,17 @@
         <meta property="og:description" content="We are collecting photos that people took at our wedding, so if you have pictures please add them here!" />
 
         <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.7/jquery.js"></script>
-	    <script src="http://malsup.github.com/jquery.form.js"></script>
+        <script src="http://malsup.github.com/jquery.form.js"></script>
 
         <link rel="stylesheet" href="style.css"></link>
         <link href="http://fonts.googleapis.com/css?family=Tangerine|Quando" rel="stylesheet" type="text/css">
     </head>
     <body>
-    
+
         <div class="content">
-        	<h1>Katri and Andrew's wedding photo collection</h1>
-        	<p class="ingress">Hello all you lovely people, we are collecting photos that people took at our wedding, so if you have pictures please add them here!</p>
-        	<p>Please add your name so we know who they have come from. Choose pictures with the file picker below, (you can add multiple pictures at the same time) if you have many be patient with the upload times!</p>
+            <h1>Katri and Andrew's wedding photo collection</h1>
+            <p class="ingress">Hello all you lovely people, we are collecting photos that people took at our wedding, so if you have pictures please add them here!</p>
+            <p>Please add your name so we know who they have come from. Choose pictures with the file picker below, (you can add multiple pictures at the same time) if you have many be patient with the upload times!</p>
 
             <form id="photos" method="post" action="upload.php" enctype="multipart/form-data">
 
@@ -41,24 +41,23 @@
                 </div>
 
                 <div id="uploadContainer">
-          		  	<p class="name"><label for="name">Your name:</label><input name="name" type="text" id="name"/></p>
-          		  	<p class="upload"><input name="upload[]" id="filesToUpload" type="file" multiple="multiple" required="required"/></p>
+                    <p class="name"><label for="name">Your name:</label><input name="name" type="text" id="name"/></p>
+                    <p class="upload"><input name="upload[]" id="filesToUpload" type="file" multiple="multiple" required="required"/></p>
 
-                  <ul class="thumbnails"></ul>
+                    <ul class="thumbnails"></ul>
 
-          			  <p class="submit"><input type="submit" value="Upload selected photos"></input></p>
+                    <p class="submit"><input type="submit" value="Upload selected photos"></input></p>
                 </div>
-        		</form>
+            </form>
             <div class="notice confirmed" style="display:none;">
                 <h4>Thanks for your pictures<span class="nameholder"></span>!</h4>
                 <p>If you want to add more <a class="reset" href="#">click here</a>.</p>
             </div>
 
-    		<p class="thanks">Thanks all!</p>
+            <p class="thanks">Thanks all!</p>
         </div>
         <div class="bg"></div>
 
-	    <script src="main.js"></script>
-
+        <script src="main.js"></script>
     </body>
 </html>
