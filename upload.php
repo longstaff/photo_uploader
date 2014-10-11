@@ -22,4 +22,6 @@ for ($i=0; $i<count($_FILES['upload']['name']); $i++) {
     }
 }
 
-return $isGood;
+if (! $isGood) {
+    header("500 Internal Server Error", true, 500);
+}
