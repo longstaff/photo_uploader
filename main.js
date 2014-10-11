@@ -163,7 +163,7 @@
         $("#photos").show();
         $(".loading, .error, .nofile, .confirmed, .noname").hide();
     }
-    
+
     function showThumbnail(files){
       var thumbnail = $(".thumbnails");
       thumbnail.empty();
