@@ -1,5 +1,4 @@
-(function(){
-
+(function () {
     var totalUpload = 0;
     var completeUpload = 0;
 
@@ -9,7 +8,9 @@
     var imageTimer;
     var imageDelay = 4000;
 
-    $(document).ready(function() {
+    $(document).ready(function () {
+        var fileReaderIsSupported = "FileReader" in window || typeof FileReader !== "undefined";
+
         //Randomise images
         shuffle(images);
         startImages(true);
@@ -22,12 +23,16 @@
             success: formSuccess,
             error: formFail
         });
+
         $('.reset').on("click", reset);
 
-        $("#filesToUpload").on("change",function(){
-          var files = this.files;
-          showThumbnail(files);
-        })
+        $("#filesToUpload").on("change", function () {
+            var files = this.files;
+
+            if (fileReaderIsSupported) {
+                showThumbnail(files);
+            }
+        });
     });
 
     //images
@@ -44,25 +49,27 @@
 
         return arr;
     }
-    function startImages(firstrun){
+
+    function startImages(firstrun) {
         var test = widthTest();
-        if(test && !imagesRunning){
+
+        if (test && !imagesRunning) {
             startTimer();
-        }
-        else if(!test && imagesRunning){
+        } else if (!test && imagesRunning) {
             stopTimer();
         }
 
-        if(firstrun){
+        if (firstrun) {
             loadImage(imageIndex);
         }
     }
-    function setWrap(){
+
+    function setWrap() {
         var theWindow = $(window);
         var back = $(".bg img").last();
         var aspectRatio = back.width() / back.height();
 
-        if ( (theWindow.width() / theWindow.height()) < aspectRatio ) {
+        if ((theWindow.width() / theWindow.height()) < aspectRatio) {
             back.removeClass("bgwidth").addClass('bgheight');
             back.css({"left":"50%", "margin-left":"-"+Math.round(back.width()/2)+"px"});
         } else {
@@ -70,136 +77,149 @@
             back.css({"left":"auto", "margin-left":"0"});
         }
     }
-    function widthTest(){
-        return true //$(window).width() > 560;
+
+    function widthTest() {
+        return true;
     }
 
-    function startTimer(){
+    function startTimer() {
         imagesRunning = true;
         imageTimer = setTimeout(timerCall, imageDelay);
     }
-    function stopTimer(){
+
+    function stopTimer() {
         imagesRunning = false;
         clearTimeout(imageTimer);
     }
-    function timerCall(){
+
+    function timerCall() {
         imageIndex = imageIndex + 1;
-        if(imageIndex > images.length) imageIndex = 0;
+        if (imageIndex > images.length) {
+            imageIndex = 0;
+        }
         loadImage(imageIndex);
     }
-    function loadImage(ind){
+
+    function loadImage(ind) {
         newImage = $("<img>");
         newImage.on("load", imageLoaded);
         newImage.attr("src", images[imageIndex]);
 
-        if(newImage.complete) imageLoaded();
+        if (newImage.complete) {
+            imageLoaded();
+        }
     }
-    function imageLoaded(ev){
+
+    function imageLoaded(ev) {
         $(this).off("load");
 
-        $(".bg img").fadeOut(500, function(){
+        $(".bg img").fadeOut(500, function () {
             $(this).remove();
         });
+
         $(".bg").append(this);
+
         setWrap();
-        $(this).hide().fadeIn(500, function(){
-            if(imagesRunning){
+
+        $(this).hide().fadeIn(500, function () {
+            if (imagesRunning) {
                 clearTimeout(imageTimer);
                 imageTimer = setTimeout(timerCall, imageDelay);
             }
         });
     }
-    function resizeTest(){
+
+    function resizeTest() {
         startImages();
         setWrap();
     }
 
     //Form
-    function formSuccess(){
+    function formSuccess() {
         var name = $("#name").val();
-        if(name) $(".nameholder").text(", "+name);
-        else $(".nameholder").text("");
+
+        if(name) {
+            $(".nameholder").text(", "+name);
+        } else {
+            $(".nameholder").text("");
+        }
 
         $(".confirmed").show();
         $(".loading, #photos, .nofile, .error").hide();
     }
 
-    function formFail(){
+    function formFail() {
         $(".error, #photos").show();
         $(".loading, .nofile, .confirmed").hide();
     }
-    function formValidate(){
+
+    function formValidate() {
         var name = $("#name").val();
 
-        if(!name){
+        if (!name) {
             $(".noname, #photos").show();
             $(".nofile, .error, .loading, .confirmed").hide();
             return false;
-        }
-        else{
+        } else {
             $(".noname").hide();
         }
 
         console.log(completeUpload, totalUpload);
         var numFiles = totalUpload > 0 && completeUpload === totalUpload;
 
-        if(numFiles > 0){
-            $(".loading").show();
-            $("#photos, .error, .nofile, .confirmed").hide();
-        }
-        else{
+        if (numFiles < 1) {
             $(".nofile, #photos").show();
             $(".error, .loading, .confirmed").hide();
             return false;
         }
+
+        $(".loading").show();
+        $("#photos, .error, .nofile, .confirmed").hide();
     }
 
-    function reset(ev){
+    function reset(ev) {
         if(ev) ev.preventDefault();
 
         var input = $("#filesToUpload");
         input.replaceWith(input.val('').clone(true));
 
         $("#photos").show();
+        $(".thumbnails").empty();
         $(".loading, .error, .nofile, .confirmed, .noname").hide();
     }
-    
-    function showThumbnail(files){
-      var thumbnail = $(".thumbnails");
-      thumbnail.empty();
-      completeUpload = 0;
 
-      for(var i=0;i<files.length;i++){
-        var file = files[i]
-        var imageType = /image.*/
+    function showThumbnail(files) {
+        var thumbnail = $(".thumbnails");
 
-        if(!file.type.match(imageType)){
-          continue;
+        thumbnail.empty();
+        completeUpload = 0;
+
+        for (var i = 0; i < files.length; i++) {
+            var file = files[i]
+            var imageType = /image.*/
+
+            if (! file.type.match(imageType)) {
+                continue;
+            }
+
+            var image = $("<img>");
+            var list = $('<li></li>');
+            var reader = new FileReader();
+
+            image.file = file;
+            list.append(image);
+            thumbnail.append(list);
+
+            reader.onload = (function (aImg) {
+                return function (e) {
+                    aImg.attr("src", e.target.result);
+                    completeUpload += 1;
+                };
+            }(image));
+
+            reader.readAsDataURL(file);
         }
 
-        var image = $("<img>");
-        // image.classList.add("")
-        image.file = file;
-        var list = $('<li></li>');
-        list.append(image);
-        thumbnail.append(list);
-
-        var reader = new FileReader()
-        reader.onload = (function(aImg){
-          return function(e){
-            aImg.attr("src", e.target.result);
-            completeUpload = completeUpload +1;
-          };
-        }(image))
-        var ret = reader.readAsDataURL(file);
-        var canvas = document.createElement("canvas");
-        ctx = canvas.getContext("2d");
-        image.onload= function(){
-          ctx.drawImage(image,100,100);
-        }
-      }
-
-      totalUpload = files.length;
+        totalUpload = files.length;
     }
-
 })();
