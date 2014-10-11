@@ -13,7 +13,14 @@ for ($i=0; $i<count($_FILES['upload']['name']); $i++) {
 
     if ($tmpFilePath != "") {
         //Setup our new file path
-        $newFilePath = "uploadedPhotos/" . time() . "_".$i."_" .$name . '_' . $_FILES['upload']['name'][$i];
+        $newFilePath = sprintf(
+            "%s/uploadedPhotos/%s_%d_%s_%s",
+            dirname(__FILE__),
+            $_SERVER['REQUEST_TIME'],
+            $i,
+            $name,
+            $_FILES['upload']['name'][$i]
+        );
 
         //Upload the file into the temp dir
         if (! move_uploaded_file($tmpFilePath, $newFilePath)) {
