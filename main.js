@@ -9,6 +9,8 @@
     var imageDelay = 4000;
 
     $(document).ready(function () {
+        var fileReaderIsSupported = "FileReader" in window || typeof FileReader !== "undefined";
+
         //Randomise images
         shuffle(images);
         startImages(true);
@@ -26,7 +28,10 @@
 
         $("#filesToUpload").on("change", function () {
             var files = this.files;
-            showThumbnail(files);
+
+            if (fileReaderIsSupported) {
+                showThumbnail(files);
+            }
         });
     });
 
