@@ -36,9 +36,6 @@
                 <div class="notice error" style="display:none;">
                     <h4>There was a problem with the upload, please try again!</h4>
                 </div>
-                <div class="notice loading" style="display:none;">
-                    <h4>Uploading, please wait</h4>
-                </div>
 
                 <div id="uploadContainer">
                     <p class="name"><label for="name">Your name:</label><input name="name" type="text" id="name"/></p>
@@ -49,6 +46,12 @@
                     <p class="submit"><input type="submit" value="Upload selected photos"></input></p>
                 </div>
             </form>
+
+            <div class="notice loading" style="display:none;">
+                <h4>Uploading, please wait</h4>
+                <p>Your photos are being uploaded, don't close your browser just yet.</p>
+            </div>
+
             <div class="notice confirmed" style="display:none;">
                 <h4>Thanks for your pictures<span class="nameholder"></span>!</h4>
                 <p>If you want to add more <a class="reset" href=".">click here</a>.</p>
