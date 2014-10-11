@@ -11,7 +11,7 @@ for ($i=0; $i<count($_FILES['upload']['name']); $i++) {
 //Get the temp file path
     $tmpFilePath = $_FILES['upload']['tmp_name'][$i];
 
-    if ($tmpFilePath != "") {
+    if ($tmpFilePath != "" && is_uploaded_file($tmpFilePath)) {
         //Setup our new file path
         $newFilePath = sprintf(
             "%s/uploadedPhotos/%s_%d_%s_%s",
