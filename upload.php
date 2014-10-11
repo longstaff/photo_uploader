@@ -2,7 +2,7 @@
 //Loop through each file
 
 $name = $_POST['name'];
-$name = preg_replace("/[^a-zA-Z0-9_\s-]/", "", $name);
+$name = preg_replace("/[^a-zA-Z0-9_\s\-]/", "", $name);
 $name = preg_replace("/[\s-]+/", "_", $name);
 
 $isGood = true;
