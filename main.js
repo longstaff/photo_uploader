@@ -216,14 +216,6 @@
             }(image));
 
             reader.readAsDataURL(file);
-
-            var canvas = document.createElement("canvas");
-
-            ctx = canvas.getContext("2d");
-
-            image.onload= function () {
-                ctx.drawImage(image, 100, 100);
-            };
         }
 
         totalUpload = files.length;
