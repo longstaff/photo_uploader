@@ -203,15 +203,12 @@
             }
 
             var image = $("<img>");
+            var list = $('<li></li>');
+            var reader = new FileReader();
 
             image.file = file;
-
-            var list = $('<li></li>');
-
             list.append(image);
             thumbnail.append(list);
-
-            var reader = new FileReader()
 
             reader.onload = (function (aImg) {
                 return function (e) {
