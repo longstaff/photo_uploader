@@ -215,7 +215,8 @@
                 };
             }(image));
 
-            var ret = reader.readAsDataURL(file);
+            reader.readAsDataURL(file);
+
             var canvas = document.createElement("canvas");
 
             ctx = canvas.getContext("2d");
