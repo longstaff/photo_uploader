@@ -1,4 +1,3 @@
-
 <?php
 //Loop through each file
 
@@ -8,23 +7,19 @@ $name = preg_replace("/[\s-]+/", "_", $name);
 
 $isGood = true;
 
-for($i=0; $i<count($_FILES['upload']['name']); $i++) {
-  //Get the temp file path
-  $tmpFilePath = $_FILES['upload']['tmp_name'][$i];
+for ($i=0; $i<count($_FILES['upload']['name']); $i++) {
+//Get the temp file path
+    $tmpFilePath = $_FILES['upload']['tmp_name'][$i];
 
-  if ($tmpFilePath != ""){
-    //Setup our new file path
-    $newFilePath = "uploadedPhotos/" . time() . "_".$i."_" .$name . '_' . $_FILES['upload']['name'][$i];
+    if ($tmpFilePath != "") {
+        //Setup our new file path
+        $newFilePath = "uploadedPhotos/" . time() . "_".$i."_" .$name . '_' . $_FILES['upload']['name'][$i];
 
-    //Upload the file into the temp dir
-    if(move_uploaded_file($tmpFilePath, $newFilePath)) {
-
+        //Upload the file into the temp dir
+        if (! move_uploaded_file($tmpFilePath, $newFilePath)) {
+            $isGood = false;
+        }
     }
-    else{
-      $isGood = false;
-    }
-  }
 }
 
 return $isGood;
-?>
